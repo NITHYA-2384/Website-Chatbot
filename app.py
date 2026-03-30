@@ -1,6 +1,10 @@
 import streamlit as st
-import speech_recognition as sr
-import pyttsx3
+try:
+    import speech_recognition as sr
+    import pyttsx3
+    voice_enabled = True
+except:
+    voice_enabled = False
 import time
 
 from backend import create_vectorstore, get_answer
@@ -26,10 +30,10 @@ for msg in st.session_state.messages:
         st.write(msg["content"])
 
 
-if st.button("🛑Stop Voice"):
+if voice_enabled and st.button("🛑 Stop Voice"):
     st.session_state.engine.stop()
 
-if st.button("🎤Speak"):
+if voice_enabled and st.button("🎤 Speak"):
     recognizer = sr.Recognizer()
 
     with sr.Microphone() as source:
